@@ -1,0 +1,22 @@
+name: Trivy Vulnerability Scan
+on: [push, pull_request]
+
+jobs:
+  trivy_scan:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        format: 'cyclonedx'
+        output: 'trivy-results.json'
+        severity: 'CRITICAL,HIGH'
+
+    - name: Upload Trivy Scan Results
+      uses: actions/upload-artifact@v2
+      with:
+        name: trivy-results
+        path: trivy-results.json
