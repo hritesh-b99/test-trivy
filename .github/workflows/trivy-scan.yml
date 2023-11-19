@@ -8,13 +8,15 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Run Trivy vulnerability scanner
+    - name: Set up Trivy
       uses: aquasecurity/trivy-action@master
       with:
+        scan-type: 'fs'
+        input: '.'
         format: 'cyclonedx'
         output: 'trivy-results.json'
         severity: 'CRITICAL,HIGH'
-
+      
     - name: Upload Trivy Scan Results
       uses: actions/upload-artifact@v2
       with:
